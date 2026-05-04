@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maxsus kun ✨</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Ranglarni yanada yumshoq va zamonaviy qildik */
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Suv tomchilari effekti fonda */
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            bottom: -50px;
+            animation: rise 10s infinite ease-in;
+            z-index: 0;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 40px;
+            padding: 50px 30px;
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            border-radius: 20px;
+            border-bottom: 5px solid #ff4d6d;
+            transition: 0.3s;
+        }
+
+        .time-box:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .number {
+            display: block;
+            font-size: 38px;
+            font-weight: 800;
+            color: #c9184a;
+            line-height: 1;
+        }
+
+        .label {
+            font-size: 13px;
+            color: #590d22;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .footer-text {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #590d22;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .footer-text span {
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+            color: #ff4d6d;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bubbles-container"></div>
+
+    <div class="container">
+        <h1>TANISHGANIMIZGA</h1>
+        
+        <div class="timer-grid">
+            <div class="time-box">
+                <span class="number" id="m">00</span>
+                <span class="label">Oy</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="d">00</span>
+                <span class="label">Kun</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="h">00</span>
+                <span class="label">Soat</span>
+            </div>
+            <div class="time-box">
+                <span class="number" id="min">00</span>
+                <span class="label">Daqiqa</span>
+            </div>
+            <div class="time-box full-width">
+                <span class="number" id="sec">00</span>
+                <span class="label">Soniya</span>
+            </div>
+        </div>
+
+        <div class="footer-text">
+            Seni uchratgan kunim men uchun kutilmagan, lekin juda chiroyli sovg'a bo'lgan edi... 
+            <span>Har doim kulib yur! 😊</span>
+        </div>
+    </div>
+
+    <script>
+        // Tanishgan sanangiz: 2026 yil 3-aprel
+        const startDate = new Date(2026, 3, 3, 0, 0, 0);
+
+        function updateTimer() {
+            const now = new Date();
+            let diff = now - startDate;
+
+            const msInSec = 1000, msInMin = 60000, msInHour = 3600000, msInDay = 86400000;
+            const msInMonth = msInDay * 30.44;
+
+            const m = Math.floor(diff / msInMonth);
+            const d = Math.floor((diff % msInMonth) / msInDay);
+            const h = Math.floor((diff % msInDay) / msInHour);
+            const min = Math.floor((diff % msInHour) / msInMin);
+            const sec = Math.floor((diff % msInMin) / msInSec);
+
+            document.getElementById('m').innerText = m.toString().padStart(2, '0');
+            document.getElementById('d').innerText = d.toString().padStart(2, '0');
+            document.getElementById('h').innerText = h.toString().padStart(2, '0');
+            document.getElementById('min').innerText = min.toString().padStart(2, '0');
+            document.getElementById('sec').innerText = sec.toString().padStart(2, '0');
+        }
+
+        function createBubbles() {
+            const container = document.getElementById('bubbles-container');
+            for (let i = 0; i < 20; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 60 + 20 + 'px';
+                bubble.style.width = size;
+                bubble.style.height = size;
+                bubble.style.left = Math.random() * 100 + 'vw';
+                bubble.style.animationDuration = Math.random() * 5 + 5 + 's';
+                bubble.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(bubble);
+            }
+        }
+
+        createBubbles();
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
